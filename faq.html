@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ | Recipe World</title>
+    <style>
+        :root {
+            --vibrant-orange: #FF6B35;
+            --deep-teal: #004E89;
+            --lime-green: #A5C882;
+            --electric-purple: #6A4C93;
+            --sunny-yellow: #F7C548;
+            --fiery-red: #EF3E36;
+            --soft-white: #F8F7F2;
+            --chinese-red: #E31937;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--soft-white);
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--vibrant-orange), var(--fiery-red));
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: white;
+            font-weight: 300;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .page-header {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+        }
+
+        .breadcrumb {
+            padding: 1rem 2rem;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .breadcrumb a {
+            color: var(--electric-purple);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--vibrant-orange);
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            color: var(--fiery-red);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--vibrant-orange), var(--electric-purple));
+            border-radius: 2px;
+        }
+
+        .faq-container {
+            margin-bottom: 4rem;
+        }
+
+        .faq-category {
+            margin-bottom: 3rem;
+        }
+
+        .faq-category h2 {
+            font-size: 1.8rem;
+            color: var(--deep-teal);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--lime-green);
+        }
+
+        .faq-item {
+            background-color: white;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--deep-teal);
+            transition: all 0.3s;
+        }
+
+        .faq-question:hover {
+            color: var(--fiery-red);
+        }
+
+        .faq-question i {
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 1.5rem;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .faq-answer p {
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .contact-box {
+            background: linear-gradient(135deg, var(--lime-green), var(--deep-teal));
+            padding: 3rem;
+            border-radius: 12px;
+            color: white;
+            text-align: center;
+            margin-top: 4rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .contact-box h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-box p {
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            background-color: white;
+            color: var(--deep-teal);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            background-color: var(--sunny-yellow);
+        }
+
+        footer {
+            background-color: #222;
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: left;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--lime-green);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--sunny-yellow);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: #444;
+            border-radius: 50%;
+            color: white;
+            text-align: center;
+            line-height: 40px;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--vibrant-orange);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #444;
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        /* Animation classes */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate {
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.6s;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .faq-question {
+                padding: 1rem;
+                font-size: 1rem;
+            }
+            
+            .contact-box {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body><script>
+(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="zRr0vgQ9zuPoICmRDeEJJ";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+</script>
+    
+    <header>
+        <div class="logo animate">Recipe World</div>
+        <div class="tagline animate delay-1">Discover Global Flavors in Your Kitchen</div>
+        <nav>
+            <a href="home.php" class="animate delay-1">Home</a>
+            <a href="recipe.php" class="animate delay-2">Cuisines</a>
+            <a href="signin2.php" class="animate delay-2">Join-Us</a>
+            <a href="about.php" class="animate delay-3">About</a>
+            <a href="contact.php" class="animate delay-3">Contact</a>
+        </nav>
+    </header>
+
+    <section class="page-header">
+        <h1 class="animate">Frequently Asked Questions</h1>
+    </section>
+
+    <div class="breadcrumb">
+        <a href="home.html">Home</a> > <span>FAQ</span>
+    </div>
+
+    <div class="container">
+        <h2 class="section-title animate">How Can We Help You?</h2>
+        
+        <div class="faq-container">
+            <div class="faq-category animate">
+                <h2>Account Questions</h2>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How do I create an account?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Creating an account is easy! Click on the "Join-Us" link in the navigation menu and fill out the registration form with your details. You'll need to provide a valid email address and create a password. Once submitted, you'll receive a confirmation email to verify your account.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>I forgot my password. How can I reset it?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>On the login page, click the "Forgot Password" link. Enter the email address associated with your account, and we'll send you instructions to reset your password. The link in the email will be valid for 24 hours.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How do I save recipes to my favorites?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>When viewing any recipe, simply click the bookmark icon (♡) near the recipe title. You can access all your saved recipes from your account dashboard under "My Favorites." You must be logged in to save recipes.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-category animate delay-1">
+                <h2>Recipe Questions</h2>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I substitute ingredients in the recipes?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Absolutely! Many recipes include substitution suggestions in the notes section. You can also find common ingredient substitutions in our Cooking Tips section. While substitutions may alter the final result slightly, we encourage experimentation to suit your taste and dietary needs.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How accurate are the cooking times?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Our cooking times are based on standard kitchen equipment and average ingredient sizes. However, actual cooking times may vary depending on your stove/oven, altitude, and ingredient variations. We recommend using the times as guidelines and checking for doneness as described in each recipe.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Do you provide nutritional information for recipes?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, most recipes include approximate nutritional information per serving (calories, protein, carbs, and fat). These are estimates based on standard ingredients and serving sizes. For precise nutritional data, we recommend using a nutrition calculator with your exact ingredients.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-category animate delay-2">
+                <h2>Technical Questions</h2>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>The website isn't loading properly. What should I do?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>First, try refreshing your browser. If that doesn't help, clear your browser cache and cookies. Make sure you're using an updated version of Chrome, Firefox, Safari, or Edge. If problems persist, please contact our support team with details about your device and browser.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How do I print a recipe?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>On any recipe page, click the "Print" button (printer icon) near the recipe title. This will open a printer-friendly version with just the recipe ingredients and instructions. You can then use your browser's print function (Ctrl+P or Command+P) to print or save as PDF.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Is there a mobile app available?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Currently, Recipe World is optimized for mobile browsers, so you can access all features from your smartphone or tablet's browser. We're developing a dedicated mobile app that will be available soon. Subscribe to our newsletter to be notified when it launches!</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-category animate delay-3">
+                <h2>Community & Sharing</h2>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I submit my own recipes?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! We welcome recipe submissions from our community. Log in to your account and visit the "Submit a Recipe" page in your dashboard. Our editorial team will review your submission, and if approved, it may be featured on the site with credit to you!</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How do I share recipes with friends?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Each recipe has social sharing buttons (Facebook, Twitter, Pinterest, etc.) and an email option. You can also copy the recipe URL directly from your browser's address bar. Some recipes have a "Send to Phone" feature that texts the recipe link to any number.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Are there any community forums or groups?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We have an active community on our Facebook Group "Recipe World Community" where members share cooking tips, photos of their creations, and recipe variations. You can also join the conversation by commenting on recipes (requires an account).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="contact-box animate">
+            <h2>Still have questions?</h2>
+            <p>Our support team is happy to help with any other questions you might have about Recipe World.</p>
+            <a href="contact.html" class="contact-btn">Contact Us</a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Recipe World</h3>
+                <p>Bringing global flavors to your kitchen since 2020.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="home.php">Home</a></li>
+                    <li><a href="recipe.php">Recipes</a></li>
+                    <li><a href="signin2.php">Join-Us</a></li>
+                    <li><a href="about.php">About Us</a></li>
+                    <li><a href="contact.php">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Cuisine Types</h3>
+                <ul>
+                   <li><a href="itallian.php">Italian</a></li>
+                    <li><a href="french.php">French</a></li>
+                    <li><a href="japan.php">Japanese</a></li>
+                    <li><a href="maxican.php">Mexican</a></li>
+                    <li><a href="India.php">Indian</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Help</h3>
+                <ul>
+                    <li><a href="faq.php">FAQ</a></li>
+                    <li><a href="privacy.php">Privacy Policy</a></li>
+					<li><a href="tands.php">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2025 Recipe World. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // FAQ accordion functionality
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function() {
+                    const faqItem = this.parentNode;
+                    faqItem.classList.toggle('active');
+                    
+                    // Close other open items
+                    const allFaqItems = document.querySelectorAll('.faq-item');
+                    allFaqItems.forEach(item => {
+                        if (item !== faqItem && item.classList.contains('active')) {
+                            item.classList.remove('active');
+                        }
+                    });
+                });
+            });
+
+            // Animate elements on scroll
+            const animateElements = document.querySelectorAll('.animate');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            animateElements.forEach(element => {
+                element.style.opacity = 0;
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>

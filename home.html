@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe World </title>
+    <style>
+        :root {
+            --vibrant-orange: #FF6B35;
+            --deep-teal: #004E89;
+            --lime-green: #A5C882;
+            --electric-purple: #6A4C93;
+            --sunny-yellow: #F7C548;
+            --fiery-red: #EF3E36;
+            --soft-white: #F8F7F2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f5c4ac ;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--vibrant-orange), var(--fiery-red));
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: white;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .search-bar {
+            margin: 1.5rem auto;
+            max-width: 600px;
+            display: flex;
+            border-radius: 50px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-bar button {
+            background-color: var(--deep-teal);
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-bar button:hover {
+            background-color: var(--electric-purple);
+        }
+
+        .hero {
+            height: 70vh;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+                        url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+        }
+
+        .cta-button {
+            background-color: var(--lime-green);
+            color: #333;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+            background-color: var(--sunny-yellow);
+        }
+
+        .categories {
+            padding: 4rem 2rem;
+            background-color: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            color: var(--deep-teal);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--vibrant-orange), var(--electric-purple));
+            border-radius: 2px;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .category-card {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0, 1);
+            position: relative;
+            height: 300px;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+        }
+
+        .category-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .category-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .category-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+        }
+
+        .category-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-info p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .featured {
+            padding: 4rem 2rem;
+            background-color: var(--soft-white);
+        }
+
+        .featured-recipes {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .recipe-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+        }
+
+        .recipe-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .recipe-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .recipe-card:hover .recipe-image img {
+            transform: scale(1.05);
+        }
+
+        .recipe-content {
+            padding: 1.5rem;
+        }
+
+        .recipe-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--deep-teal);
+        }
+
+        .recipe-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .recipe-desc {
+            margin-bottom: 1.5rem;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .view-recipe {
+            display: inline-block;
+            background-color: var(--vibrant-orange);
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .view-recipe:hover {
+            background-color: var(--fiery-red);
+            transform: translateY(-2px);
+        }
+
+        .newsletter {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--electric-purple), var(--deep-teal)));
+            color: white;
+            text-align: center;
+        }
+
+        .newsletter h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter p {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+            border-radius: 50px;
+            overflow: hidden;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .newsletter-form button {
+            background-color: var(--sunny-yellow);
+            color: #333;
+            border: none;
+            padding: 0 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .newsletter-form button:hover {
+            background-color: var(--lime-green);
+        }
+
+        footer {
+            background-color: #222;
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: left;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--lime-green);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--sunny-yellow);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: #444;
+            border-radius: 50%;
+            color: white;
+            text-align: center;
+            line-height: 40px;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--vibrant-orange);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #444;
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            nav {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            
+            .category-grid, .featured-recipes {
+                grid-template-columns: 1fr;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+                border-radius: 12px;
+            }
+            
+            .newsletter-form button {
+                padding: 1rem;
+            }
+        }
+
+        /* Animation classes */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate {
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.6s;
+        }
+    </style>
+	<style>
+	
+
+    .recipe-button {
+	display: flex;
+      height: 10vh;
+	  width: 40vh;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ffe5b4, #ffb347);
+      margin: 0;
+	  left: 20vh;
+      font-family: 'Segoe UI', sans-serif;
+	  
+      background: linear-gradient(to right, #ff6f61, #ff9966);
+      border: none;
+      padding: 30px 30px;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 50px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .recipe-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(to right, #ff9966, #ff6f61);
+    }
+
+    .recipe-button:active {
+      transform: scale(0.95);
+    }
+
+    .recipe-button::after {
+      content: '🍽️';
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      transition: right 0.3s ease-in-out;
+    }
+
+    .recipe-button:hover::after {
+      right: 15px;
+    }
+	</style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+<script>
+(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="zRr0vgQ9zuPoICmRDeEJJ";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+</script>
+    <header>
+        <div class="logo animate">Recipe World</div>
+        <div class="tagline animate delay-1">Discover Global Flavors in Your Kitchen</div>
+        
+        <nav>
+            <a href="home.php" class="animate delay-1">Home</a>
+            <a href="recipe.php" class="animate delay-2">Cuisines</a>
+            <a href="signin2.php" class="animate delay-2">Join-Us</a>
+            <a href="about.php" class="animate delay-3">About</a>
+            <a href="contact.php" class="animate delay-3">Contact</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1 class="animate">Explore World Cuisines</h1>
+        <p class="animate delay-1">From Italian pasta to Japanese sushi, discover thousands of authentic international recipes</p>
+        <a href="recipe.html" class="cta-button animate delay-2">Start Cooking Now</a>
+    </section>
+
+    <section class="categories">
+        <h2 class="section-title animate">Culinary Journeys</h2>
+        <div class="category-grid">
+            <div class="category-card animate">
+                <img src="https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Italian Cuisine">
+                <div class="category-info">
+                    <h3>Italian Delights</h3>
+                    <p>Pasta, Pizza, Risotto and more</p>
+                </div>
+            </div>
+            <div class="category-card animate delay-1">
+                <img src="images/Aish.jpg" alt="Asian Cuisine">
+                <div class="category-info">
+                    <h3>Asian Flavors</h3>
+                    <p>Mixed rice bowl with veggies, egg, and gochujang</p>
+                </div>
+            </div>
+            <div class="category-card animate delay-2">
+                <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Indian Cuisine">
+                <div class="category-info">
+                    <h3>Indian Spices</h3>
+                    <p>Curries, Biryanis, Tandoori dishes</p>
+                </div>
+            </div>
+            <div class="category-card animate">
+                <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Mexican Cuisine">
+                <div class="category-info">
+                    <h3>Mexican Fiesta</h3>
+                    <p>Tacos, Enchiladas, Guacamole</p>
+                </div>
+            </div>
+            <div class="category-card animate delay-1">
+                <img src="images/french.jpg">
+                <div class="category-info">
+                    <h3>French Cuisine</h3>
+                    <p> Flaky, buttery layered pastry</p>
+                </div>
+            </div>
+            <div class="category-card animate delay-2">
+                <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="American Cuisine">
+                <div class="category-info">
+                    <h3>American Classics</h3>
+                    <p>Burgers, BBQ, Southern comfort food</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="featured">
+        <h2 class="section-title animate">Today's Featured Recipes</h2>
+        <div class="featured-recipes">
+            <div class="recipe-card animate">
+                <div class="recipe-image">
+                    <img src="images/carbonera.jpg">                </div>
+                <div class="recipe-content">
+                    <h3>Authentic Carbonara</h3>
+                    <div class="recipe-meta">
+                        <span><i class="far fa-clock"></i> 25 mins</span>
+                        <span><i class="fas fa-utensils"></i> Italian</span>
+                    </div>
+                    <p class="recipe-desc">Classic Roman pasta dish with eggs, cheese, pancetta, and pepper.</p>
+                    <a href="https://youtu.be/jlcFwYwiuwY?si=szVgjxULBfZTI4oF" class="view-recipe">View Recipe</a>
+                </div>
+            </div>
+            <div class="recipe-card animate delay-1">
+                <div class="recipe-image">
+                    <img src="images/chicken.jpg">               </div>
+                <div class="recipe-content">
+                    <h3>Chicken Tikka Masala</h3>
+                    <div class="recipe-meta">
+                        <span><i class="far fa-clock"></i> 50 mins</span>
+                        <span><i class="fas fa-utensils"></i> Indian</span>
+                    </div>
+                    <p class="recipe-desc">Creamy, spiced curry with grilled chicken pieces in a rich tomato sauce.</p>
+                    <a href="https://youtu.be/c2MGcq_m6r4?si=pObmlzeEgAXO0lLh" class="view-recipe">View Recipe</a>
+                </div>
+            </div>
+            <div class="recipe-card animate delay-2">
+                <div class="recipe-image">
+                    <img src="images/sushi.jpg">
+                </div>
+                <div class="recipe-content">
+                    <h3>Homemade Sushi</h3>
+                    <div class="recipe-meta">
+                        <span><i class="far fa-clock"></i> 1.5 hours</span>
+                        <span><i class="fas fa-utensils"></i> Japanese</span>
+                    </div>
+                    <p class="recipe-desc">Learn to make perfect sushi rice and roll your own maki and nigiri.</p>
+                    <a href="https://youtu.be/aDQxH-KpCCc?si=ix1oUL9DpEE7Zdzq" class="view-recipe">View Recipe</a>
+                </div>
+            </div>
+        </div>
+    </section>
+<div>
+    <section class="newsletter">
+        <h2 class="animate">Get Weekly Recipe Inspiration</h2>
+        <p class="animate delay-1">Join our newsletter and receive new international recipes every week, plus cooking tips and exclusive content.</p>
+        <form class="newsletter-form animate delay-2">
+            <center><button class="recipe-button"><a style="  text-decoration: none; " href="signin.html" >Subscribe</button></center>
+        </form>
+    </section>
+	</div>
+<div>
+    <footer>
+        <div class="footer-content">
+            
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+               <ul>
+                   <li><a href="itallian.php">Italian</a></li>
+                    <li><a href="french.php">French</a></li>
+                    <li><a href="japan.php">Japanese</a></li>
+                    <li><a href="maxican.php">Mexican</a></li>
+                    <li><a href="India.php">Indian</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Help</h3>
+                <ul>
+                    <li><a href="faq.php">FAQ</a></li>
+                    <li><a href="privacy.php">Privacy Policy</a></li>
+					<li><a href="tands.php">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2025 Recipe World. All rights reserved.
+        </div>
+    </footer>
+
+</div>
+
+  
+
+  
+
+
+    <script>
+	function goToRecipe() {
+      // Replace with your target URL or function
+      window.location.href = "https://your-recipe-world-page.com";
+    }
+  
+        // Animation on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateElements = document.querySelectorAll('.animate');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            animateElements.forEach(element => {
+                element.style.opacity = 0;
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                observer.observe(element);
+            });
+
+            // Category card hover effect enhancement
+            const categoryCards = document.querySelectorAll('.category-card');
+            categoryCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    const info = this.querySelector('.category-info');
+                    info.style.background = 'linear-gradient(transparent, rgba(0,0,0,0.9))';
+                });
+                card.addEventListener('mouseleave', function() {
+                    const info = this.querySelector('.category-info');
+                    info.style.background = 'linear-gradient(transparent, rgba(0,0,0,0.7))';
+                });
+            });
+
+            // Search functionality placeholder
+            const searchForm = document.querySelector('.search-bar');
+            searchForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const searchInput = this.querySelector('input').value;
+                alert(`Searching for: ${searchInput}`);
+                // In a real implementation, this would redirect to search results
+            });
+
+            // Newsletter form submission
+            const newsletterForm = document.querySelector('.newsletter-form');
+            newsletterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = this.querySelector('input').value;
+                if (email) {
+                    alert(`Thank you for subscribing with ${email}!`);
+                    this.querySelector('input').value = '';
+                } else {
+                    alert('Please enter a valid email address');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

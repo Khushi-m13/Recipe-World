@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Recipe World Button</title>
+  <style>
+    body {
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ffe5b4, #ffb347);
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .recipe-button {
+      background: linear-gradient(to right, #ff6f61, #ff9966);
+      border: none;
+      padding: 15px 30px;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 50px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .recipe-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(to right, #ff9966, #ff6f61);
+    }
+
+    .recipe-button:active {
+      transform: scale(0.95);
+    }
+
+    .recipe-button::after {
+      content: '🍽️';
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      transition: right 0.3s ease-in-out;
+    }
+
+    .recipe-button:hover::after {
+      right: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <button class="recipe-button" onclick="goToRecipe()">Recipe World</button>
+
+  <script>
+    function goToRecipe() {
+      // Replace with your target URL or function
+      window.location.href = "https://your-recipe-world-page.com";
+    }
+  </script>
+
+</body>
+</html>
